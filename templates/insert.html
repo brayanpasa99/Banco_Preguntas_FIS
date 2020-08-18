@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+   <head>
+      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+   </head>
+   <body>
+      <h3>{{entidad}}</h3>
+      <form action="" method="GET">
+        {% for campo in campos %}
+            <p>{{campo['name']}}</p><input type="text" name="{{campo['name']}}"><br>
+        {% endfor %}
+        <input type="submit" value="Enviar">
+      </form>
+      <a href = "/">Go back to home page</a>
+   </body>
+</html>
