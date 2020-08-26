@@ -1,7 +1,7 @@
 from flask import Flask, request, flash, url_for, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import inspect
-
+from sqlalchemy import inspect
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///banco_preguntas.sqlite3'
@@ -9,7 +9,7 @@ app.config['SECRET_KEY'] = "123456789"
 
 db = SQLAlchemy(app)
 inspector = inspect(db.engine)
-
+schemas = inspector.get_schema_names()
 
 class categoria(db.Model):
    id = db.Column('cat_id', db.Integer, primary_key = True)
@@ -117,10 +117,29 @@ def list(entidad):
 def insert(entidad):
    campos = inspector.get_columns(entidad)
    return render_template('insert.html', entidad = entidad, campos = campos )
-
-@app.route('/')
-
-
+   
 if __name__ == '__main__':
+
    db.create_all()
+   metadata = db.metadata
+   print(metadata.tables.keys())
+
+   for schema in schemas:
+      print("schema: %s" % schema)
+      for table_name in inspector.get_table_names(schema=schema):
+         print(table_name)
+         for column in inspector.get_columns(table_name, schema=schema):
+               print("Column: %s" % column)
+
+   engine = db.engine
+   connection = engine.connect()
+   metadata = db.MetaData()
+   pregunta = db.Table('pregunta', metadata, autoload=True, autoload_with=engine)
+
+   query = db.select([pregunta])
+
+   ResultProxy = connection.execute(query)
+   ResultSet = ResultProxy.fetchall()
+   print(ResultSet)
+
    app.run('localhost', 8000, debug=True)

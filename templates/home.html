@@ -2,10 +2,58 @@
 <html>
    <head>
       <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
    </head>
    <body>
+
+      
+
+      <table>
+
+         <tr id="titulo" name="titulo">
+
+            <th colspan="5"><h2> Elija la pocion que quiera leer, agragar, editar o eliminar </h2></th>
+
+         </tr>
+
       {% for row in entidades %}
-      <a href = "/list/{{row}}">{{row}}</a><br>
+      
+         <tr>
+
+            
+            <th>
+
+               <h3> {{row}} </h3>
+
+            </th>
+
+            <th>
+               
+               <a href = "/list/{{row}}"><i class="fa fa-eye"></i></a>
+
+            </th>
+
+            <th>
+              
+               <a href = "/insert/{{row}}"><i class="fa fa-plus"></i></a>
+
+            </th>
+
+            <th>
+               <i class="fa fa-edit"></i>
+
+            </th>
+
+            <th>
+               <i class="fa fa-minus"></i>
+
+            </th>
+
+         </tr>
+
       {% endfor %}
+   
+      </table>
+   
    </body>
 </html>

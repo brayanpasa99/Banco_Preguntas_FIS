@@ -4,11 +4,31 @@
       <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
    </head>
    <body>
-      <h3>{{entidad}}</h3>
-      {% for campo in campos %}
-         <p>{{campo['name']}}</p><br>
-      {% endfor %}
-      <a href = "/insert/{{entidad}}">Insertar dato</a><br>
+
+      <table>
+         
+         <tr id="titulo" name="titulo">
+
+            <th colspan="10"><h3> Consultar {{entidad}}</h3></th>
+
+         </tr>
+
+         <tr>
+
+               {% for campo in campos %}
+
+               <th>
+
+                  <p>{{campo['name']}}</p>
+
+               </th>
+               
+               {% endfor %}
+
+         </tr>
+
+      </table>
+      
       <a href = "/">Go back to home page</a>
    </body>
 </html>

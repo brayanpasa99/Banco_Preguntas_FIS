@@ -4,13 +4,38 @@
       <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
    </head>
    <body>
-      <h3>{{entidad}}</h3>
-      <form action="" method="GET">
-        {% for campo in campos %}
-            <p>{{campo['name']}}</p><input type="text" name="{{campo['name']}}"><br>
-        {% endfor %}
-        <input type="submit" value="Enviar">
-      </form>
+
+      <table>
+
+         <tr id="titulo" name="titulo">
+
+            <th colspan="2"><h3> Ingresar {{entidad}}</h3></th>
+
+         </tr>
+
+         <form action="" method="GET">
+            {% for campo in campos %}
+
+               <tr>
+
+                  <th> <p> {{campo['name']}}</p> </th>
+                  <th> <input type="text" name="{{campo['name']}}"> </th>
+
+               </tr>
+   
+            {% endfor %}
+            
+            <tr>
+
+               <th colspan="2"><input type="submit" value="Enviar"></th>
+
+            </tr>
+            
+          </form>
+
+      </table>
+      
       <a href = "/">Go back to home page</a>
+   
    </body>
 </html>
