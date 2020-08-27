@@ -1,7 +1,6 @@
 from flask import Flask, request, flash, url_for, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import inspect
-from sqlalchemy import inspect
+from sqlalchemy import *
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///banco_preguntas.sqlite3'
@@ -10,6 +9,7 @@ app.config['SECRET_KEY'] = "123456789"
 db = SQLAlchemy(app)
 inspector = inspect(db.engine)
 schemas = inspector.get_schema_names()
+metadata = MetaData()
 
 class categoria(db.Model):
    id = db.Column('cat_id', db.Integer, primary_key = True)
@@ -126,14 +126,18 @@ def confirmar(entidad):
       for campo in campos:
          valores.append(request.form[campo['name']])
 
-      for table_name in db.engine.table_names():
+      for table_name in metadata.tables.keys():
          if table_name == entidad:
-            tabla = table_name
-      
-      querystatement = tabla.insert().values(id=0, cat_nombre="nombreprueba0", cat_tipo=0)
-      db.session.execute(querystatement)
-      db.session.commit()
-
+            inst = "INSERT INTO "+table_name+" ("
+            for campo in range(len(campos)-1):
+               inst = inst+str(campos[campo]['name'])+", "
+            inst = inst + str(campos[len(campos)-1]['name']) + ") VALUES ("
+            for valor in range(len(valores)-1):
+               inst = inst+"'"+str(valores[valor])+"'"+", "
+            inst = inst + "'"+str(valores[valor-1])+"'" + ");"   
+            print(inst)
+            #db.engine.execute("INSERT INTO categoria (cat_id, cat_nombre, cat_tipo) VALUES ('1', 'nombreprueba1', '1')")
+            db.engine.execute(inst)
       return render_template('confirmacion.html', entidad = entidad)
    else:
       return render_template('falla.html')
