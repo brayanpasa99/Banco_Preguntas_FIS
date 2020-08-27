@@ -1,59 +1,54 @@
 <!doctype html>
 <html>
-   <head>
-      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-   </head>
-   <body>
 
-      
+<head>
+   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
 
-      <table>
+<body>
 
-         <tr id="titulo" name="titulo">
 
-            <th colspan="5"><h2> Elija la pocion que quiera leer, agragar, editar o eliminar </h2></th>
 
-         </tr>
+   <table>
+
+      <tr id="titulo" name="titulo">
+
+         <th colspan="5">
+            <h2> Elija la pocion que quiera leer, agragar, editar o eliminar </h2>
+         </th>
+
+      </tr>
 
       {% for row in entidades %}
-      
-         <tr>
 
-            
-            <th>
+      <tr>
 
-               <h3> {{row}} </h3>
 
-            </th>
+         <th>
 
-            <th>
-               
-               <a href = "/list/{{row}}"><i class="fa fa-eye"></i></a>
+            <h3> {{row}} </h3>
 
-            </th>
+         </th>
 
-            <th>
-              
-               <a href = "/insert/{{row}}"><i class="fa fa-plus"></i></a>
+         <th>
 
-            </th>
+            <a href="/list/{{row}}"><i class="fa fa-eye"></i></a>
 
-            <th>
-               <i class="fa fa-edit"></i>
+         </th>
 
-            </th>
+         <th>
 
-            <th>
-               <i class="fa fa-minus"></i>
+            <a href="/insert/{{row}}"><i class="fa fa-plus"></i></a>
 
-            </th>
+         </th>
 
-         </tr>
+      </tr>
 
       {% endfor %}
-   
-      </table>
-   
-   </body>
+
+   </table>
+
+</body>
+
 </html>

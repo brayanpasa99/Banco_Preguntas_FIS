@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <table>
+
+        <tr id="titulo" name="titulo">
+
+            <th colspan="2">
+                <h3>Ingresar {{entidad}}</h3>
+            </th>
+
+        </tr>
+
+        <form action="/update/{{entidad}}" method="POST" name="form{{entidad}}" id="form{{entidad}}">
+            <tr>
+                <th>
+                    <p>{{campos[0]['name']}}</p>
+                </th>
+                <th>
+                    <input type="text" value="{{registros[0][0]}}" name="{{campos[0]['name']}}" readonly>
+                </th>
+            </tr>
+            {% set cnt = [1] %}
+            {% for campo in campos[1:] %}
+            <tr>
+                <th>
+                    <p> {{campo['name']}}</p>
+                </th>
+                <th> <input type="text" name="{{campo['name']}}" value="{{registros[0][cnt[0]]}}" placeholder="{{registros[0][cnt[0]]}}"> </th>
+                {% if cnt.append(cnt.pop() + 1) %}{% endif %}
+            </tr>
+
+            {% endfor %}
+
+            <tr>
+
+                <th colspan="2"><input type="submit" value="Enviar"></th>
+
+            </tr>
+
+        </form>
+
+    </table>
+
+    <a href="/">Go back to home page</a>
+
+</body>
+
+</html>
