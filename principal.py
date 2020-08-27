@@ -117,6 +117,26 @@ def list(entidad):
 def insert(entidad):
    campos = inspector.get_columns(entidad)
    return render_template('insert.html', entidad = entidad, campos = campos )
+
+@app.route('/registered/<entidad>', methods=["POST", "GET"])
+def confirmar(entidad):
+   campos = inspector.get_columns(entidad)
+   valores = []
+   if request.method == "POST":
+      for campo in campos:
+         valores.append(request.form[campo['name']])
+
+      for table_name in db.engine.table_names():
+         if table_name == entidad:
+            tabla = table_name
+      
+      querystatement = tabla.insert().values(id=0, cat_nombre="nombreprueba0", cat_tipo=0)
+      db.session.execute(querystatement)
+      db.session.commit()
+
+      return render_template('confirmacion.html', entidad = entidad)
+   else:
+      return render_template('falla.html')
    
 if __name__ == '__main__':
 
@@ -124,22 +144,22 @@ if __name__ == '__main__':
    metadata = db.metadata
    print(metadata.tables.keys())
 
-   for schema in schemas:
-      print("schema: %s" % schema)
-      for table_name in inspector.get_table_names(schema=schema):
-         print(table_name)
-         for column in inspector.get_columns(table_name, schema=schema):
-               print("Column: %s" % column)
+   #for schema in schemas:
+   #   print("schema: %s" % schema)
+   #   for table_name in inspector.get_table_names(schema=schema):
+   #      print(table_name)
+   #      for column in inspector.get_columns(table_name, schema=schema):
+   #            print("Column: %s" % column)
 
-   engine = db.engine
-   connection = engine.connect()
-   metadata = db.MetaData()
-   pregunta = db.Table('pregunta', metadata, autoload=True, autoload_with=engine)
+   #engine = db.engine
+   #connection = engine.connect()
+   #metadata = db.MetaData()
+   #pregunta = db.Table('pregunta', metadata, autoload=True, autoload_with=engine)
 
-   query = db.select([pregunta])
+   #query = db.select([pregunta])
 
-   ResultProxy = connection.execute(query)
-   ResultSet = ResultProxy.fetchall()
-   print(ResultSet)
+   #ResultProxy = connection.execute(query)
+   #ResultSet = ResultProxy.fetchall()
+   #print(ResultSet)
 
    app.run('localhost', 8000, debug=True)

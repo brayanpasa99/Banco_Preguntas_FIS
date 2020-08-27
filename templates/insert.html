@@ -9,11 +9,11 @@
 
          <tr id="titulo" name="titulo">
 
-            <th colspan="2"><h3> Ingresar {{entidad}}</h3></th>
+            <th colspan="2"><h3>Ingresar {{entidad}}</h3></th>
 
          </tr>
 
-         <form action="" method="GET">
+         <form action="/registered/{{entidad}}" method="POST" name="form{{entidad}}" id="form{{entidad}}">
             {% for campo in campos %}
 
                <tr>
