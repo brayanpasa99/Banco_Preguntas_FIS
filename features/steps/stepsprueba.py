@@ -2,6 +2,7 @@
 from behave import *
 import requests
 
+#Prueba.feature______________________________________________________
 @given('a {entity} to show fields')
 def step_impl(context, entity):
     context.api_url = 'http://localhost:8000/insert/' + entity
