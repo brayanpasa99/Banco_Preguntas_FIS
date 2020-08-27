@@ -1,4 +1,4 @@
-from flask import Flask, request, flash, url_for, redirect, render_template
+from flask import Flask, request, flash, url_for, redirect, render_template, session
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import *
 
@@ -126,6 +126,11 @@ def list(entidad):
 @app.route('/insert/<entidad>')
 def insert(entidad):
     campos = inspector.get_columns(entidad)
+    nombres_campos = []
+    for c in campos:
+       nombres_campos.append(c['name'])
+
+    session['campos'] = nombres_campos
     return render_template('insert.html', entidad=entidad, campos=campos)
 
 
@@ -145,7 +150,7 @@ def confirmar(entidad):
                 inst = inst + str(campos[len(campos)-1]['name']) + ") VALUES ("
                 for valor in range(len(valores)-1):
                     inst = inst+"'"+str(valores[valor])+"'"+", "
-                inst = inst + "'"+str(valores[valor-1])+"'" + ");"
+                inst = inst + "'"+str(valores[len(valores)-1])+"'" + ");"
                 print(inst)
                 # db.engine.execute("INSERT INTO categoria (cat_id, cat_nombre, cat_tipo) VALUES ('1', 'nombreprueba1', '1')")
                 db.engine.execute(inst)
@@ -205,6 +210,7 @@ def actualizar(entidad):
         return render_template('confirmacion.html', entidad=entidad)
     else:
         return render_template('falla.html')
+
 
 
 if __name__ == '__main__':
